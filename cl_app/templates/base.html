@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block title %}
+            {% if title %}
+            <title>{{ context.title }} - Routine Checklists</title>
+            {% else %}
+            <title>Welcome to Routine Checklists!</title>
+            {% endif %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block nav %}
+        <div>
+            <a href="/index">Home</a>
+            <a href="/new">New</a>
+
+        </div>
+        {% endblock %}
+        <hr>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
