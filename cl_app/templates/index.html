@@ -1,17 +1,27 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% if title %}
+        <title>{{ context.title }} - Routine Checklists</title>
+        {% else %}
+        <title>Welcome to Routine Checklists!</title>
+        {% endif %}
+    </head>
+    <body>
+        <h1>Hello, and welcome!</h1>
+        <p>This is the home page of the routine checklists web page.</p>
+        <p>Here are the checklists:</p>
+        <table>
+            {% for list in context.check_lists %}
+                <div>
+                    <tr><h2>{{ list.title}}</h2></tr>
+                    <tr><p>By {{list.author.username}}</p></tr>
+                    {% for item in list['items'] %}
+                        <tr>{{ item }}</tr>
+                    {% endfor %}
 
-{% block content %}
-    <h1>Hello, and welcome!</h1>
-    <p>This is the home page of the routine checklists web page.</p>
-    <hr>
-    <p>Here are the checklists:</p>
-    {% for list in context.check_lists %}
-        <div>
-            <h2>{{ list.title}}</h2>
-            <p>By {{list.author.username}}</p>
-            {% for item in list['items'] %}
-                <li>{{ item }}</li>
+                </div>
             {% endfor %}
-        </div>
-    {% endfor %}
-{% endblock %}
+        </table>
+    </body>
+</html>
