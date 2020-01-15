@@ -1,4 +1,4 @@
-form cl_app import app
+from cl_app import app
 
 @app.route('/')
 @app.route('/index')
