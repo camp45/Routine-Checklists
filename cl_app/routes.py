@@ -19,3 +19,11 @@ def index():
                 ]
             }
     return render_template('index.html', context=context)
+
+
+@app.route('/new')
+def create_new_checklist():
+    context = {
+    'content':'Make a new checklist here!'
+    }
+    return render_template('create_new_checklist.html', context=context)
