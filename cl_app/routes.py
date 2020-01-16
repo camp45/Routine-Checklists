@@ -27,3 +27,4 @@ def create_new_checklist():
     'content':'Make a new checklist here!'
     }
     return render_template('create_new_checklist.html', context=context)
+
