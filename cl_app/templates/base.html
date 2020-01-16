@@ -12,9 +12,9 @@
     <body>
         {% block nav %}
         <div>
-            <a href="/index">Home</a>
-            <a href="/new">New</a>
-            <a href="/login">Login</a>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('create_new_checklist') }}">New</a>
+            <a href="{{ url_for('login') }}">Login</a>
         </div>
         {% endblock %}
         <hr>
