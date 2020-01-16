@@ -3,7 +3,7 @@
     <head>
         {% block title %}
             {% if title %}
-            <title>{{ context.title }} - Routine Checklists</title>
+            <title>{{ title }} - Routine Checklists</title>
             {% else %}
             <title>Welcome to Routine Checklists!</title>
             {% endif %}
@@ -14,11 +14,19 @@
         <div>
             <a href="/index">Home</a>
             <a href="/new">New</a>
-
+            <a href="/login">Login</a>
         </div>
         {% endblock %}
         <hr>
-        {% block content %}
-        {% endblock %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
     </body>
 </html>
