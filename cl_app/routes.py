@@ -9,7 +9,6 @@ from cl_app.models import User
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
     check_lists = [{'author': {'username': 'Brad'},
                     'title': 'Monday Chores',
@@ -26,6 +25,7 @@ def index():
 
 
 @app.route('/new')
+@login_required
 def create_new_checklist():
     content = 'Make a new checklist here!'
     return render_template('create_new_checklist.html',
