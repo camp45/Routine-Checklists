@@ -14,7 +14,11 @@
         <div>
             <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('create_new_checklist') }}">New</a>
+            {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
         </div>
         {% endblock %}
         <hr>
