@@ -7,9 +7,9 @@
     {% for list in check_lists %}
         <div>
             <h2>{{ list.title}}</h2>
-            <p>By {{list.author.username}}</p>
-            {% for item in list['items'] %}
-                <li>{{ item }}</li>
+            <p>By {{list.author.username}}, on {{list.creation_date }}</p>
+            {% for item in list.listitems %}
+                <li>{{ item.title }}</li>
             {% endfor %}
         </div>
     {% endfor %}

@@ -10,15 +10,7 @@ from cl_app.models import User, CheckList, ListItem
 @app.route('/')
 @app.route('/index')
 def index():
-    check_lists = [{'author': {'username': 'Brad'},
-                    'title': 'Monday Chores',
-                    'items': ['Take out trash', 'Test the app']
-                    },
-                    {
-                    'author': {'username': 'Frank'},
-                    'title': 'Pre Takeoff Checklist',
-                    'items': ['Doors','Brakes', 'Flight Controls',
-                              'Flight Instruments']}]
+    check_lists = CheckList.query.order_by(CheckList.creation_date).limit(10)
     return render_template('index.html',
                             title='Home Page',
                             check_lists=check_lists)
