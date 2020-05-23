@@ -1,6 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>New Checklsit Creation Page</h1>
-    <p>{{ content }}</p>
+    <h1>Create a New Checklsit</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title(size=32) }}<br>
+            {% for error in form.title.errors %}
+                <span style="color:red;">{{error}}</span>
+            {% endfor %}
+        </p>
+        {% for item in form.item_list %}
+            <p>
+                {{ item.label }}<br>
+                {{ item(size=32) }} <br>
+                {% for error in item.errors %}
+                    <span style="color:red;">{{error}}</span>
+                {% endfor %}
+            </p>
+        {% endfor %}
+        <p>{{ form.submit() }}</p>
+    </form>
 {% endblock %}

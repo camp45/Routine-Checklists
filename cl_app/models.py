@@ -27,7 +27,7 @@ def load_user(id):
 
 class CheckList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, index=True)
+    title = db.Column(db.String(120), index=True, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     creation_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     listitems = db.relationship('ListItem', backref='checklist', lazy='dynamic')
@@ -38,7 +38,7 @@ class CheckList(db.Model):
 
 class ListItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, index=True)
+    title = db.Column(db.String(120), index=True)
     checklist_id = db.Column(db.Integer, db.ForeignKey('check_list.id'))
     creation_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 

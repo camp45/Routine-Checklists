@@ -4,8 +4,8 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 from cl_app import app, db
-from cl_app.forms import LoginForm, RegistrationForm
-from cl_app.models import User
+from cl_app.forms import LoginForm, RegistrationForm, ItemForm, CheckListForm
+from cl_app.models import User, CheckList, ListItem
 
 @app.route('/')
 @app.route('/index')
@@ -24,13 +24,22 @@ def index():
                             check_lists=check_lists)
 
 
-@app.route('/new')
+@app.route('/new', methods=['GET', 'POST'])
 @login_required
 def create_new_checklist():
-    content = 'Make a new checklist here!'
+    form = CheckListForm()
+    user = User.query.filter_by(id=current_user.id).first()
+    if form.validate_on_submit():
+        list = CheckList(title=form.title.data, author=user)
+        db.session.add(list)
+        items = [ListItem(title=item.title.data, checklist=list) for item in form.item_list]
+        db.session.add_all(items)
+        db.session.commit()
+        flash(f'Checklist {list.title} Created')
+        return redirect(url_for('index'))
     return render_template('create_new_checklist.html',
                             title='New Check List',
-                            content=content)
+                            form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
