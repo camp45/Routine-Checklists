@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Field
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 
-from cl_app.models import User
+from cl_app.models import User, CheckList, ListItem
 
 
 class LoginForm(FlaskForm):
@@ -38,4 +38,9 @@ class CheckListForm(FlaskForm):
     title = StringField('Checklist Title', validators=[DataRequired()])
     item_list = FieldList(FormField(ItemForm), min_entries=2)
     submit = SubmitField('Submit Registration')
+
+    def validate_title(self, title):
+        list = CheckList.query.filter_by(title=title.data)
+        if list is not None:
+            raise ValidationError('This title is already take, please chose another.')
 

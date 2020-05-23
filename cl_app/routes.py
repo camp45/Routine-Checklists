@@ -29,7 +29,7 @@ def index():
 def create_new_checklist():
     form = CheckListForm()
     user = User.query.filter_by(id=current_user.id).first()
-    if form.validate_on_submit():
+    if form.validate_on_submit() and not CheckList.query.filter_by(title=form.title.data).first():
         list = CheckList(title=form.title.data, author=user)
         db.session.add(list)
         items = [ListItem(title=item.title.data, checklist=list) for item in form.item_list]
@@ -77,6 +77,6 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congrats, you are not a registerd user!')
+        flash('Congrats, you are now a registerd user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
