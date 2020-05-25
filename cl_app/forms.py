@@ -40,7 +40,7 @@ class CheckListForm(FlaskForm):
     submit = SubmitField('Submit Registration')
 
     def validate_title(self, title):
-        list = CheckList.query.filter_by(title=title.data)
+        list = CheckList.query.filter_by(title=title.data).first()
         if list is not None:
             raise ValidationError('This title is already take, please chose another.')
 

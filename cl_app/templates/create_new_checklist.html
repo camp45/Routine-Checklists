@@ -1,20 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Create a New Checklsit</h1>
+    <h1>Create a New Checklist</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
             {{ form.title.label }}<br>
-            {{ form.title(size=32) }}<br>
+            {{ form.title(size=60) }}<br>
             {% for error in form.title.errors %}
                 <span style="color:red;">{{error}}</span>
             {% endfor %}
         </p>
         {% for item in form.item_list %}
             <p>
-                {{ item.label }}<br>
-                {{ item(size=32) }} <br>
+                {{loop.index}}{{ item(size=60) }} <br>
                 {% for error in item.errors %}
                     <span style="color:red;">{{error}}</span>
                 {% endfor %}

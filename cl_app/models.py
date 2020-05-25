@@ -44,6 +44,3 @@ class ListItem(db.Model):
 
     def __repr__(self):
         return f'<ListItem: {self.title}>'
-
-    def __repr__(self):
-        return f'<ListItem: {self.title}>'

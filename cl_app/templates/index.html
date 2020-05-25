@@ -4,10 +4,10 @@
     <h1>Home</h1>
     <p>This is the home page of the routine checklists web page.</p>
     <p>Here are the checklists:</p>
-    {% for list in check_lists %}
+    {% for list in checklists %}
         <div>
             <h2>{{ list.title}}</h2>
-            <p>By <a href="/#profile">{{list.author.username}}</a>, on {{list.creation_date}}</p>
+            <p>By <a href="/user/{{list.author.username}}">{{list.author.username}}</a>, on {{list.creation_date}}</p>
             {% for item in list.listitems %}
                 <li>{{ item.title }}</li>
             {% endfor %}

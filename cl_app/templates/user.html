@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>User: {{user.username}}</h1>
+    <hr>
+    <p>This is the profile page for {{user.username}}.</p>
+    <p>Here are their ten most recent checklists:</p>
+    {% for list in checklists %}
+        <div>
+            <h2>{{list.title}}</h2>
+            <p>Created on {{list.creation_date}}</p>
+            {% for item in list.listitems %}
+                <li>{{ item.title }}</li>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    </table>
+{% endblock %}

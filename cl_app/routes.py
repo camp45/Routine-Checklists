@@ -10,10 +10,10 @@ from cl_app.models import User, CheckList, ListItem
 @app.route('/')
 @app.route('/index')
 def index():
-    check_lists = CheckList.query.order_by(CheckList.creation_date).limit(10)
+    checklists = CheckList.query.order_by(CheckList.creation_date.desc()).limit(10)
     return render_template('index.html',
                             title='Home Page',
-                            check_lists=check_lists)
+                            checklists=checklists)
 
 
 @app.route('/new', methods=['GET', 'POST'])
@@ -72,3 +72,10 @@ def register():
         flash('Congrats, you are now a registerd user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    checklists = user.checklists.order_by(CheckList.creation_date.desc()).limit(10).all()
+    return render_template('user.html', user=user, checklists=checklists)
