@@ -1,0 +1,8 @@
+{# This sub template expects a single list object called 'list' to be passed #}
+<div>
+    <h2>{{ list.title}}</h2>
+    <p>By <a href="/user/{{list.author.username}}">{{list.author.username}}</a>, on {{list.creation_date}}</p>
+    {% for item in list.listitems %}
+        <li>{{ item.title }}</li>
+    {% endfor %}
+</div>
