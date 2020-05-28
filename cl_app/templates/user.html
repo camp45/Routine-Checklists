@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block app_content %}
     <h1>User: {{user.username}}</h1>
     <hr>
     <p>This is the profile page for {{user.username}}.</p>
@@ -8,4 +8,4 @@
     {% for list in checklists %}
         {% include '_list_of_checklists.html' %}
     {% endfor %}
-{% endblock %}
+{% endblock app_content %}
