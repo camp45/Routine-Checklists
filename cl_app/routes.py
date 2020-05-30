@@ -16,6 +16,11 @@ def index():
                             checklists=checklists)
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html', title='About')
+
+
 @app.route('/new', methods=['GET', 'POST'])
 @login_required
 def create_new_checklist():
