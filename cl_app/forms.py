@@ -36,7 +36,7 @@ class ItemForm(FlaskForm):
 
 class CheckListForm(FlaskForm):
     title = StringField('Checklist Title', validators=[DataRequired()])
-    item_list = FieldList(FormField(ItemForm), min_entries=2)
+    item_list = FieldList(FormField(ItemForm), min_entries=4)
     submit = SubmitField('Submit Registration')
 
     def validate_title(self, title):

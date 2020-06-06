@@ -32,7 +32,7 @@ def create_new_checklist():
         items = [ListItem(title=item.title.data, checklist=list) for item in form.item_list]
         db.session.add_all(items)
         db.session.commit()
-        flash(f'Checklist {list.title} Created')
+        flash(f'Checklist "{list.title}" Created')
         return redirect(url_for('index'))
     return render_template('create_new_checklist.html',
                             title='New Check List',
