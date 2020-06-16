@@ -5,7 +5,7 @@
     <hr>
     <p>This is the profile page for {{user.username}}.</p>
     <p>Here are their ten most recent checklists:</p>
-    {% for list in checklists %}
-        {% include '_list_of_checklists.html' %}
+    {% for checklist in checklists %}
+        {% include '_checklist.html' %}
     {% endfor %}
 {% endblock app_content %}

@@ -39,6 +39,23 @@ def create_new_checklist():
                             form=form)
 
 
+@app.route('/checklist/<int:checklist_id>')
+def checklist(checklist_id):
+    checklist = CheckList.query.filter_by(id=checklist_id).first()
+    if checklist:
+        return render_template('checklist.html', checklist=checklist)
+    else:
+        flash('Checklist not found')
+        return redirect(url_for('index'))
+
+
+@app.route('/checklist/<int:checklist_id>/edit')
+@login_required
+def edit_checklist(checklist_id):
+    return f'Checklist edit parge for {checklist_id}'
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:

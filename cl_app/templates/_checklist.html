@@ -1,0 +1,12 @@
+{# This sub template expects a single checklist object called 'checklist' to be passed #}
+<div class="panel panel-default">
+    <div class="panel-heading"><a href="/checklist/{{checklist.id}}">{{ checklist.title}}</a></div>
+    <div class="panel-body">
+        <p>By <a href="/user/{{checklist.author.username}}">{{checklist.author.username}}</a>, on {{checklist.creation_date}}</p>
+    </div>
+    <div class="list-group">
+        {% for item in checklist.listitems %}
+            <li class="list-group-item">{{ item.title }}</li>
+        {% endfor %}
+    </div>
+</div>
