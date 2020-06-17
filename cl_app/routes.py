@@ -41,7 +41,7 @@ def create_new_checklist():
 
 @app.route('/checklist/<int:checklist_id>')
 def checklist(checklist_id):
-    checklist = CheckList.query.filter_by(id=checklist_id).first()
+    checklist = CheckList.query.get(checklist_id)
     if checklist:
         return render_template('checklist.html', checklist=checklist)
     else:
@@ -52,7 +52,17 @@ def checklist(checklist_id):
 @app.route('/checklist/<int:checklist_id>/edit')
 @login_required
 def edit_checklist(checklist_id):
-    return f'Checklist edit parge for {checklist_id}'
+    checklist = CheckList.query.get(checklist_id)
+    if checklist:
+        if checklist.author.username == current_user.username:
+            return render_template('edit_checklist.html', checklist=checklist)
+        else:
+            flash("You don't own this checklist, and therefore can't edit it.")
+            return redirect(url_for('index'))
+    else:
+        flash('Checklist not found')
+        return redirect(url_for('index'))
+
 
 
 

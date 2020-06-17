@@ -1,8 +1,27 @@
 {# This sub template expects a single checklist object called 'checklist' to be passed #}
 <div class="panel panel-default">
-    <div class="panel-heading"><a href="/checklist/{{checklist.id}}">{{ checklist.title}}</a></div>
+    <div class="panel-heading">
+        {% if '/checklist/' in request.path %}
+            {{ checklist.title}}
+        {% else %}
+            <a href="{{ url_for('checklist', checklist_id=checklist.id) }}">{{ checklist.title}}</a>
+        {% endif %}
+        {% if
+            current_user.username == checklist.author.username and
+            '/edit' not in request.path
+        %}
+            <a href="{{ url_for('edit_checklist', checklist_id=checklist.id) }}"><span class="glyphicon glyphicon glyphicon-pencil"></span></a>
+        {% endif %}
+    </div>
     <div class="panel-body">
-        <p>By <a href="/user/{{checklist.author.username}}">{{checklist.author.username}}</a>, on {{checklist.creation_date}}</p>
+        <p>By:
+            {% if '/user/' in request.path %}
+                {{checklist.author.username}}
+            {% else %}
+                <a href="/user/{{checklist.author.username}}">{{checklist.author.username}}</a>
+            {% endif %}
+            on {{checklist.creation_date.strftime('%d-%m-%Y')}} at {{checklist.creation_date.strftime('%-I:%M %p')}}
+        </p>
     </div>
     <div class="list-group">
         {% for item in checklist.listitems %}
@@ -15,12 +34,19 @@
                             {{ item.title }}
                     </div>
                     <div class="col-sm-2 text-center">
-                        <a href="#" class="btn btn-xs">
-                            <span class="glyphicon glyphicon-minus"></span>
-                        </a>
+                        {% if (
+                                '/edit' in request.path and
+                                current_user.username == checklist.author.username
+                            )
+                        %}
+                            <a href="#" class="btn btn-xs">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </li>
         {% endfor %}
     </div>
 </div>
+{# checked glyph class='glyphicon glyphicon-check' #}
