@@ -17,27 +17,9 @@
                 {% endfor %}
             </p>
         </div>
-        <div id='item_list'>
-            {% for item in form.item_list %}
-            <div id="item_list-{{loop.index - 1}}">
-                <p>
-                    {{ item.title.label }} : {{ item.title(size=50) }}<br>
-                    {% for error in item.errors %}
-                        <span style="color:red;">{{error}}</span>
-                    {% endfor %}
-                </p>
-            </div>
-
-            {% endfor %}
-        </div>
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-outline-secondary" value="Add another list item" onClick="addInput('item_list');">
-                    <span class="glyphicon glyphicon-plus"></span>
-            </button>
-            <button type="button" class="btn btn-med btn-outline-primary">
+        <button type="button" class="btn btn-med">
                 {{ form.submit() }}
-            </button>
-        </div>
+        </button>
     </form>
 
 

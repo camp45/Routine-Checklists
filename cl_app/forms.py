@@ -32,11 +32,11 @@ class RegistrationForm(FlaskForm):
 
 
 class ItemForm(FlaskForm):
-    title = StringField('List Item', validators=[DataRequired()])
+    title = StringField('Add List Item', validators=[DataRequired()])
+    submit = SubmitField('Add List Item')
 
 class CheckListForm(FlaskForm):
     title = StringField('Checklist Title', validators=[DataRequired()])
-    item_list = FieldList(FormField(ItemForm), min_entries=4)
     submit = SubmitField('Submit Registration')
 
     def validate_title(self, title):
