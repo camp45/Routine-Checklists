@@ -2,11 +2,11 @@
 
 {% block app_content %}
     {% include '_checklist.html' %}
-    <form class="form-inline" action="#" method="POST">
+    <form class="form-inline" action="{{ url_for('edit_checklist', checklist_id=checklist.id, action=['add']) }}" method="POST">
         {{ form.hidden_tag() }}
         <div class="form-group">
-            {{ form.title.label }}
-            {{ form.title }}
+            {{ form.item_text.label }}
+            {{ form.item_text }}
             <button type="submit" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
         </div>
     </form>

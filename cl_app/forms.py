@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, FieldList, FormField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FieldList, FormField, HiddenField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 
@@ -32,8 +32,10 @@ class RegistrationForm(FlaskForm):
 
 
 class ItemForm(FlaskForm):
-    title = StringField('Add List Item', validators=[DataRequired()])
-    submit = SubmitField('Add List Item')
+    checklist_id = HiddenField('Checklist ID', validators=[DataRequired()])
+    item_text = StringField('Add List Item', validators=[DataRequired()])
+    remove_item = SubmitField('Remove List Item')
+    add_item = SubmitField('Add List Item')
 
 class CheckListForm(FlaskForm):
     title = StringField('Checklist Title', validators=[DataRequired()])

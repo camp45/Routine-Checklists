@@ -29,11 +29,9 @@ def create_new_checklist():
     if form.validate_on_submit() and not CheckList.query.filter_by(title=form.title.data).first():
         list = CheckList(title=form.title.data, author=user)
         db.session.add(list)
-        items = [ListItem(title=item.title.data, checklist=list) for item in form.item_list]
-        db.session.add_all(items)
         db.session.commit()
         flash(f'Checklist "{list.title}" Created')
-        return redirect(url_for('index'))
+        return redirect(url_for('edit_checklist', checklist_id=list.id))
     return render_template('create_new_checklist.html',
                             title='New Check List',
                             form=form)
@@ -49,20 +47,31 @@ def checklist(checklist_id):
         return redirect(url_for('index'))
 
 
-@app.route('/checklist/<int:checklist_id>/edit')
+@app.route('/checklist/<int:checklist_id>/edit', methods=['POST', 'GET'])
 @login_required
 def edit_checklist(checklist_id):
     checklist = CheckList.query.get(checklist_id)
+    form = ItemForm(checklist_id=checklist.id)
     if checklist:
         if checklist.author.username == current_user.username:
-            return render_template('edit_checklist.html', checklist=checklist)
+            if request.method == 'GET':
+                return render_template('edit_checklist.html', checklist=checklist, form=form)
+            if request.method == 'POST' and form.validate_on_submit() and request.args.get('action') == 'add':
+                list_item = ListItem(title=form.item_text.data, checklist_id=form.checklist_id.data)
+                db.session.add(list_item)
+                db.session.commit()
+                flash(f"Item '{form.item_text.data}' added to {checklist.title}.")
+                form = ItemForm()
+                return render_template('edit_checklist.html', checklist=checklist, form=ItemForm(checklist_id=checklist.id))
+            elif request.method == 'POST' and request.args.get('action') == 'delete':
+                pass
+            return render_template('edit_checklist.html', checklist=checklist, form=form)
         else:
             flash("You don't own this checklist, and therefore can't edit it.")
             return redirect(url_for('index'))
     else:
         flash('Checklist not found')
         return redirect(url_for('index'))
-
 
 
 

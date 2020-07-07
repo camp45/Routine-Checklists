@@ -39,9 +39,9 @@
                                 current_user.username == checklist.author.username
                             )
                         %}
-                            <a href="#" class="btn btn-xs">
-                                <span class="glyphicon glyphicon-minus"></span>
-                            </a>
+                            <form action="href="{{ url_for('edit_checklist', checklist_id=checklist.id, action=['delete']) }}">
+                                <button class="btn btn-xs""><span class="glyphicon glyphicon-minus"></span></button>
+                            </form>
                         {% endif %}
                     </div>
                 </div>
