@@ -4,7 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 from cl_app import app, db
-from cl_app.forms import LoginForm, RegistrationForm, ItemForm, CheckListForm
+from cl_app.forms import LoginForm, RegistrationForm, CreateItemForm, CheckListForm
 from cl_app.models import User, CheckList, ListItem
 
 @app.route('/')
@@ -51,18 +51,23 @@ def checklist(checklist_id):
 @login_required
 def edit_checklist(checklist_id):
     checklist = CheckList.query.get(checklist_id)
-    form = ItemForm(checklist_id=checklist.id)
+    form = CreateItemForm(checklist_id=checklist.id)
     if checklist:
         if checklist.author.username == current_user.username:
             if request.method == 'GET':
-                return render_template('edit_checklist.html', checklist=checklist, form=form)
+                item_forms = []
+                for item in checklist.listitems.all():
+                    temp_form = CreateItemForm()
+                    temp_form.process(obj=item)
+                    item_forms.append(temp_form)
+                return render_template('edit_checklist.html', checklist=checklist, form=form, item_forms=item_forms)
             if request.method == 'POST' and form.validate_on_submit() and request.args.get('action') == 'add':
                 list_item = ListItem(title=form.item_text.data, checklist_id=form.checklist_id.data)
                 db.session.add(list_item)
                 db.session.commit()
                 flash(f"Item '{form.item_text.data}' added to {checklist.title}.")
-                form = ItemForm()
-                return render_template('edit_checklist.html', checklist=checklist, form=ItemForm(checklist_id=checklist.id))
+                form = CreateItemForm(checklist_id=checklist.id)
+                return render_template('edit_checklist.html', checklist=checklist, form=form)
             elif request.method == 'POST' and request.args.get('action') == 'delete':
                 pass
             return render_template('edit_checklist.html', checklist=checklist, form=form)
@@ -72,6 +77,22 @@ def edit_checklist(checklist_id):
     else:
         flash('Checklist not found')
         return redirect(url_for('index'))
+
+@app.route('/listitem/delete', methods=['POST'])
+@login_required
+def edit_list_item():
+    form = CreateItemForm()
+    if form.validate_on_submit():
+        item = ListItem.query.get(form.id.data)
+        try:
+            db.session.delete(item)
+            db.session.commit()
+            flash(f"Item '{form.title.data}' deleted")
+            return redirect(url_for('edit_checklist', checklist_id=item.checklist_id))
+        except:
+            pass
+    flash('Error in form')
+    return redirect(url_for('edit_checklist', checklist_id=item.checklist_id))
 
 
 

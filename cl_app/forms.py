@@ -31,9 +31,10 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Please Use a Different Email Address')
 
 
-class ItemForm(FlaskForm):
+class CreateItemForm(FlaskForm):
+    id = HiddenField('Item ID')
+    title = StringField('Add List Item', validators=[DataRequired()])
     checklist_id = HiddenField('Checklist ID', validators=[DataRequired()])
-    item_text = StringField('Add List Item', validators=[DataRequired()])
     remove_item = SubmitField('Remove List Item')
     add_item = SubmitField('Add List Item')
 

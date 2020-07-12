@@ -24,26 +24,27 @@
         </p>
     </div>
     <div class="list-group">
-        {% for item in checklist.listitems %}
+        {% for item in item_forms %}
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-1 text-center">
-                        <span class="glyphicon glyphicon-unchecked"></span>
-                    </div>
-                    <div class="col-sm-9 text-left">
-                            {{ item.title }}
-                    </div>
-                    <div class="col-sm-2 text-center">
-                        {% if (
-                                '/edit' in request.path and
-                                current_user.username == checklist.author.username
-                            )
-                        %}
-                            <form action="href="{{ url_for('edit_checklist', checklist_id=checklist.id, action=['delete']) }}">
-                                <button class="btn btn-xs""><span class="glyphicon glyphicon-minus"></span></button>
-                            </form>
-                        {% endif %}
-                    </div>
+                    <form class="form-inline" action="{{ url_for('edit_list_item') }}" method="POST">
+                        {{ item.hidden_tag() }}
+                        <div class="col-sm-1 text-center">
+                            <span class="glyphicon glyphicon-unchecked"></span>
+                        </div>
+                        <div class="col-sm-9 text-left">
+                                {{ item.title(readonly=True) }}
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            {% if (
+                                    '/edit' in request.path and
+                                    current_user.username == checklist.author.username
+                                )
+                            %}
+                                <button class="btn btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
+                            {% endif %}
+                        </div>
+                    </form>
                 </div>
             </li>
         {% endfor %}
